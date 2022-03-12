@@ -58,10 +58,10 @@ class StatFlowsTest < ActionDispatch::IntegrationTest
       deaths_count = Case.where.not(death_date: nil)
                          .where(gender: "M")
                          .count
-      puts deaths_count
+
       get(covid_deaths_path + "?gender=M")
       response = JSON.parse @response.body
-      puts response["count"]
+
       assert_equal deaths_count, response["count"]
     end
 end
