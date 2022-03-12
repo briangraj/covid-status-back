@@ -1,6 +1,6 @@
 class StatsController < ApplicationController
   def total
-    @count = Case.count
+    @count = Case.where(cases_query_param).count
 
     render json: { count: @count }, status: :ok
   end
@@ -10,5 +10,10 @@ class StatsController < ApplicationController
                  .count
 
     render json: { count: @count }, status: :ok
+  end
+
+  private
+  def cases_query_param
+    params.permit(:gender)
   end
 end
