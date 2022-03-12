@@ -6,7 +6,8 @@ class StatsController < ApplicationController
   end
 
   def deaths
-    @count = Case.where.not(death_date: nil)
+    @count = Case.where(cases_query_param)
+                 .where.not(death_date: nil)
                  .count
 
     render json: { count: @count }, status: :ok
