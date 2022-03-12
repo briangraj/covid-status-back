@@ -38,6 +38,6 @@ class StatFlowsTest < ActionDispatch::IntegrationTest
       get covid_deaths_path
       response = JSON.parse @response.body
 
-      assert_equal 1, response["count"]
+      assert_equal 0, response["count"]
     end
 end
