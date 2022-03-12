@@ -13,3 +13,11 @@ two:
   age: 1
   state: MyString
   diagnosis_date: 2022-03-12
+
+three:
+  event_id: 1
+  gender: MyString
+  age: 1
+  state: MyString
+  diagnosis_date: 2022-03-12
+  death_date: 2022-03-12
