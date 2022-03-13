@@ -84,7 +84,9 @@ class StatFlowsTest < ActionDispatch::IntegrationTest
     end
 
     test "GET /covid/deaths should filter by age_from" do
-      deaths_count = Case.age_from(30).count
+      deaths_count = Case.where.not(death_date: nil)
+                         .age_from(30)
+                         .count
 
       get(covid_deaths_path + "?age_from=30")
       response = JSON.parse @response.body
@@ -93,7 +95,9 @@ class StatFlowsTest < ActionDispatch::IntegrationTest
     end
 
     test "GET /covid/deaths should filter by age_to" do
-      deaths_count = Case.age_to(25).count
+      deaths_count = Case.where.not(death_date: nil)
+                         .age_to(25)
+                         .count
 
       get(covid_deaths_path + "?age_to=25")
       response = JSON.parse @response.body
