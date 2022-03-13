@@ -3,21 +3,21 @@
 one:
   event_id: 1
   gender: M
-  age: 1
+  age: 25
   state: MyString
   diagnosis_date: 2022-03-12
 
 two:
   event_id: 1
   gender: F
-  age: 1
+  age: 30
   state: MyString
   diagnosis_date: 2022-03-12
 
 three:
   event_id: 1
   gender: M
-  age: 1
+  age: 40
   state: MyString
   diagnosis_date: 2022-03-12
   death_date: 2022-03-12
@@ -25,7 +25,7 @@ three:
 four:
   event_id: 1
   gender: F
-  age: 1
+  age: 40
   state: MyString
   diagnosis_date: 2022-03-12
   death_date: 2022-03-12
