@@ -124,23 +124,23 @@ class StatFlowsTest < ActionDispatch::IntegrationTest
     assert_equal deaths_count, response["count"]
   end
 
-  test "GET /covid/deaths should filter by diagnosis_date_from" do
+  test "GET /covid/deaths should filter by death_date_from" do
     deaths_count = Case.where.not(death_date: nil)
-                       .diagnosis_date_from("2022-03-05")
+                       .death_date_from("2022-03-05")
                        .count
 
-    get(covid_deaths_path + "?diagnosis_date_from=2022-03-05")
+    get(covid_deaths_path + "?death_date_from=2022-03-05")
     response = JSON.parse @response.body
 
     assert_equal deaths_count, response["count"]
   end
 
-  test "GET /covid/deaths should filter by diagnosis_date_to" do
+  test "GET /covid/deaths should filter by death_date_to" do
     deaths_count = Case.where.not(death_date: nil)
-                       .diagnosis_date_to("2022-03-01")
+                       .death_date_to("2022-03-01")
                        .count
 
-    get(covid_deaths_path + "?diagnosis_date_to=2022-03-01")
+    get(covid_deaths_path + "?death_date_to=2022-03-01")
     response = JSON.parse @response.body
 
     assert_equal deaths_count, response["count"]
