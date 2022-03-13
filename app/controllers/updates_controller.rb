@@ -15,6 +15,8 @@ class UpdatesController < ApplicationController
 
   def update_migration
     # TODO Possible steps
+    # verify when was the last update so it's not done more than once per day
+
     # download_data
 
     # unzip_data
@@ -25,6 +27,10 @@ class UpdatesController < ApplicationController
     # save_diff
 
     # save_to_update
+
+    # delete_downloaded_zip
+
+    # rename_csv
 
     head(:no_content)
   end
