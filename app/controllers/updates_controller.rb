@@ -1,4 +1,6 @@
 require "zip"
+require "csv-diff"
+require "csv"
 
 class UpdatesController < ApplicationController
   def show
@@ -23,6 +25,7 @@ class UpdatesController < ApplicationController
     unzip_data
 
     # get_diff
+    diff = get_diff
 
     # save_diff
 
@@ -51,5 +54,17 @@ class UpdatesController < ApplicationController
         end
       end
     end
+  end
+
+  def get_diff
+    file1 = CSV.open("zips/10-casos.csv", "r") do |csv|
+      csv.readlines
+    end
+    file2 = CSV.open("zips/11-casos.csv", "r") do |csv|
+      csv.readlines
+    end
+    diff = CSVDiff.new(file1, file2)
+
+    diff.adds
   end
 end
