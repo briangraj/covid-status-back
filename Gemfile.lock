@@ -71,6 +71,7 @@ GEM
     builder (3.2.4)
     concurrent-ruby (1.1.9)
     crass (1.0.6)
+    csv-diff (0.6.1)
     debug (1.4.0)
       irb (>= 1.3.6)
       reline (>= 0.2.7)
@@ -166,6 +167,7 @@ PLATFORMS
 
 DEPENDENCIES
   bootsnap
+  csv-diff
   debug
   puma (~> 5.0)
   rack-cors
