@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_03_12_135620) do
+ActiveRecord::Schema[7.0].define(version: 2022_03_13_193108) do
   create_table "cases", force: :cascade do |t|
     t.integer "event_id"
     t.string "gender"
@@ -18,6 +18,13 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_12_135620) do
     t.string "state"
     t.date "diagnosis_date"
     t.date "death_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "updates", force: :cascade do |t|
+    t.date "last_load_date"
+    t.integer "updated_records"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
