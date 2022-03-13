@@ -1,3 +1,5 @@
+require "zip"
+
 class UpdatesController < ApplicationController
   def show
     @update = Update.select(:last_load_date, :updated_records).last
@@ -9,5 +11,39 @@ class UpdatesController < ApplicationController
     }
 
     render json: msg, status: :ok
+  end
+
+  def update_migration
+    # TODO Possible steps
+    # download_data
+
+    # unzip_data
+    unzip_data
+
+    # get_diff
+
+    # save_diff
+
+    # save_to_update
+
+    head(:no_content)
+  end
+
+  private
+  def unzip_data
+    Zip::File.open("datasets/10-casos.zip") do |zip_file|
+      # Handle entries one by one
+      zip_file.each do |entry|
+        puts "Extracting #{entry.name}"
+
+        # Extract to file or directory based on name in the archive
+        begin
+          entry.extract "zips/" + entry.name
+        rescue Errno::ENOTDIR, Errno::ENOENT => err
+          Dir.mkdir "zips"
+          retry
+        end
+      end
+    end
   end
 end
