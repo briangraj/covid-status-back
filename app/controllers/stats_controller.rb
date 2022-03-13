@@ -1,12 +1,14 @@
 class StatsController < ApplicationController
   def total
-    @count = Case.where_with_scopes(cases_query_param).count
+    allowed_params = params.permit Case.total_allowed_params
+    @count = Case.where_with_scopes(allowed_params).count
 
     render json: { count: @count }, status: :ok
   end
 
   def deaths
-    @count = Case.where_with_scopes(cases_query_param)
+    allowed_params = params.permit Case.deaths_allowed_params
+    @count = Case.where_with_scopes(allowed_params)
                  .where.not(death_date: nil)
                  .count
 
