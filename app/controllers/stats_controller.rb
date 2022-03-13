@@ -1,12 +1,12 @@
 class StatsController < ApplicationController
   def total
-    @count = Case.where(cases_query_param).count
+    @count = Case.where_with_scopes(cases_query_param).count
 
     render json: { count: @count }, status: :ok
   end
 
   def deaths
-    @count = Case.where(cases_query_param)
+    @count = Case.where_with_scopes(cases_query_param)
                  .where.not(death_date: nil)
                  .count
 
@@ -15,6 +15,7 @@ class StatsController < ApplicationController
 
   private
   def cases_query_param
-    params.permit(:gender)
+    # TODO verify type or cast???
+    params.permit(:gender, :age_from, :age_to)
   end
 end
