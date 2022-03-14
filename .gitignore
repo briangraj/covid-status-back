@@ -33,6 +33,5 @@
 /config/master.key
 
 /.idea
-/datasets
-/zips
+/dataset
 .env
