@@ -28,6 +28,7 @@ class UpdatesController < ApplicationController
     diff = get_diff
 
     # save_diff
+    save_diff(diff)
 
     # save_to_update
 
@@ -66,5 +67,22 @@ class UpdatesController < ApplicationController
     diff = CSVDiff.new(file1, file2)
 
     diff.adds
+  end
+
+  def save_diff(diff)
+    diff.adds.each do |_, value|
+      # TODO not save one by one
+      a_case = Case.new(
+        event_id: value.fields["id_evento_caso"],
+        gender: value.fields["sexo"],
+        # TODO "edad" could be in months. based on edad_años_meses, if it is in months it should be transformed to years
+        age: value.fields["edad"],
+        state: value.fields["residencia_provincia_nombre"],
+        diagnosis_date: value.fields["fecha_diagnostico"],
+        death_date: value.fields["fecha_fallecimiento"]
+      )
+
+      a_case.save!
+    end
   end
 end
