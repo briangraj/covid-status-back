@@ -44,16 +44,16 @@ class UpdatesController < ApplicationController
 
   private
   def unzip_data
-    Zip::File.open("datasets/10-casos.zip") do |zip_file|
+    Zip::File.open("dataset/new.zip") do |zip_file|
       # Handle entries one by one
       zip_file.each do |entry|
         puts "Extracting #{entry.name}"
 
         # Extract to file or directory based on name in the archive
         begin
-          entry.extract "zips/" + entry.name
+          entry.extract "dataset/new.csv"
         rescue Errno::ENOTDIR, Errno::ENOENT => err
-          Dir.mkdir "zips"
+          Dir.mkdir "dataset"
           retry
         end
       end
@@ -61,13 +61,15 @@ class UpdatesController < ApplicationController
   end
 
   def get_diff
-    file1 = CSV.open("zips/10-casos.csv", "r") do |csv|
+    old_file = CSV.open("dataset/old.csv", "r") do |csv|
       csv.readlines
     end
-    file2 = CSV.open("zips/11-casos.csv", "r") do |csv|
+
+    new_file = CSV.open("dataset/new.csv", "r") do |csv|
       csv.readlines
     end
-    diff = CSVDiff.new(file1, file2)
+
+    diff = CSVDiff.new(old_file, new_file)
 
     diff.adds
   end
@@ -99,11 +101,11 @@ class UpdatesController < ApplicationController
   end
 
   def delete_files
-    File.delete("datasets/10-casos.zip")
-    File.delete("zips/11-casos.csv")
+    File.delete("dataset/new.zip")
+    File.delete("dataset/old.csv")
   end
 
   def rename_csv
-    File.rename("zips/10-casos.csv", "zips/11-casos.csv")
+    File.rename("dataset/new.csv", "dataset/old.csv")
   end
 end
