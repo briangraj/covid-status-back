@@ -61,12 +61,18 @@ class UpdatesController < ApplicationController
   end
 
   def get_diff
-    old_file = CSV.open("dataset/old.csv", "r") do |csv|
+    new_file = CSV.open("dataset/new.csv", "r") do |csv|
       csv.readlines
     end
 
-    new_file = CSV.open("dataset/new.csv", "r") do |csv|
-      csv.readlines
+    begin
+      old_file = CSV.open("dataset/old.csv", "r") do |csv|
+        csv.readlines
+      end
+    rescue Errno::ENOENT
+      # If there is no old.csv file then all the data is new
+      # TODO better way to return the new data without calling CSVDiff.new
+      old_file = [new_file.first]
     end
 
     diff = CSVDiff.new(old_file, new_file)
@@ -102,7 +108,7 @@ class UpdatesController < ApplicationController
 
   def delete_files
     File.delete("dataset/new.zip")
-    File.delete("dataset/old.csv")
+    File.delete("dataset/old.csv") if File.exist?("dataset/old.csv")
   end
 
   def rename_csv
