@@ -37,6 +37,7 @@ class UpdatesController < ApplicationController
     delete_files
 
     # rename_csv
+    rename_csv
 
     head(:no_content)
   end
@@ -100,5 +101,9 @@ class UpdatesController < ApplicationController
   def delete_files
     File.delete("datasets/10-casos.zip")
     File.delete("zips/11-casos.csv")
+  end
+
+  def rename_csv
+    File.rename("zips/10-casos.csv", "zips/11-casos.csv")
   end
 end
