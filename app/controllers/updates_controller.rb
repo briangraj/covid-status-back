@@ -33,8 +33,8 @@ class UpdatesController < ApplicationController
     # save_to_update
     update_sync_data(diff)
 
-    # delete_downloaded_zip
-    delete_zip
+    # delete_downloaded_zip_and_csv
+    delete_files
 
     # rename_csv
 
@@ -97,7 +97,8 @@ class UpdatesController < ApplicationController
     sync_data.save!
   end
 
-  def delete_zip
+  def delete_files
     File.delete("datasets/10-casos.zip")
+    File.delete("zips/11-casos.csv")
   end
 end
