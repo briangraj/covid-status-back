@@ -1,6 +1,7 @@
 require "zip"
 require "csv-diff"
 require "csv"
+require "open-uri"
 
 class UpdatesController < ApplicationController
   def show
@@ -20,6 +21,7 @@ class UpdatesController < ApplicationController
     # verify when was the last update so it's not done more than once per day
 
     # download_data
+    download_zip
 
     # unzip_data
     unzip_data
@@ -43,6 +45,16 @@ class UpdatesController < ApplicationController
   end
 
   private
+  def download_zip
+    # TODO use curl or wget???
+    begin
+      IO.copy_stream(URI.open(Rails.configuration.dataset_url), "dataset/new.zip")
+    rescue Errno::ENOTDIR, Errno::ENOENT
+      Dir.mkdir("dataset")
+      retry
+    end
+  end
+
   def unzip_data
     Zip::File.open("dataset/new.zip") do |zip_file|
       # Handle entries one by one
