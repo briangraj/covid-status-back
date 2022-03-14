@@ -34,6 +34,7 @@ class UpdatesController < ApplicationController
     update_sync_data(diff)
 
     # delete_downloaded_zip
+    delete_zip
 
     # rename_csv
 
@@ -94,5 +95,9 @@ class UpdatesController < ApplicationController
     sync_data.updated_records = diff.size
 
     sync_data.save!
+  end
+
+  def delete_zip
+    File.delete("datasets/10-casos.zip")
   end
 end
