@@ -1,4 +1,4 @@
-# README
+# Covid Status
 
 ## Requirements to run this app:
 * [Ruby 3.1.0](https://www.ruby-lang.org/en/documentation/installation/)
@@ -26,3 +26,5 @@ bundle install
 ```shell
 bin/rails server
 ```
+
+The server runs on [http://localhost:8080](http://localhost:8080)
