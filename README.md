@@ -1,24 +1,28 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Requirements to run this app:
+* [Ruby 3.1.0](https://www.ruby-lang.org/en/documentation/installation/)
+* [Ruby on Rails 7.0.2.3](https://guides.rubyonrails.org/getting_started.html#installing-ruby)
 
-Things you may want to cover:
+## Environment variable
+Use the variable `DATASET_URL` to set where the dataset is downloaded from. This can be done creating a file `.env` in the root of the project, with this:
+```dotenv
+DATASET_URL=https://...
+```
 
-* Ruby version
+## Run the app
+1. Clone repo
+```shell
+git clone git@github.com:briangraj/covid-status-back.git
+cd covid-status-back/
+```
 
-* System dependencies
+2. Install gems
+```shell
+bundle install
+```
 
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+3. Start the server
+```shell
+bin/rails server
+```
