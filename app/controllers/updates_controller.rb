@@ -57,18 +57,8 @@ class UpdatesController < ApplicationController
 
   def unzip_data
     Zip::File.open("dataset/new.zip") do |zip_file|
-      # Handle entries one by one
-      zip_file.each do |entry|
-        puts "Extracting #{entry.name}"
-
-        # Extract to file or directory based on name in the archive
-        begin
-          entry.extract "dataset/new.csv"
-        rescue Errno::ENOTDIR, Errno::ENOENT => err
-          Dir.mkdir "dataset"
-          retry
-        end
-      end
+      # We assume the zip only has 1 csv file
+      zip_file.first.extract "dataset/new.csv"
     end
   end
 
