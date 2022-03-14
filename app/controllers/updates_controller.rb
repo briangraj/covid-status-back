@@ -31,6 +31,7 @@ class UpdatesController < ApplicationController
     save_diff(diff)
 
     # save_to_update
+    update_sync_data(diff)
 
     # delete_downloaded_zip
 
@@ -70,7 +71,7 @@ class UpdatesController < ApplicationController
   end
 
   def save_diff(diff)
-    diff.adds.each do |_, value|
+    diff.each do |_, value|
       # TODO not save one by one
       a_case = Case.new(
         event_id: value.fields["id_evento_caso"],
@@ -84,5 +85,14 @@ class UpdatesController < ApplicationController
 
       a_case.save!
     end
+  end
+
+  def update_sync_data(diff)
+    # TODO only exists one record???
+    sync_data = Update.last
+    sync_data.last_load_date = Date.today
+    sync_data.updated_records = diff.size
+
+    sync_data.save!
   end
 end
