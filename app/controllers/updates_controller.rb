@@ -47,16 +47,21 @@ class UpdatesController < ApplicationController
   end
 
   private
+  # Downloads the dataset using the env var +DATASET_URL+ as source.
+  # The file is saved directly to disk in +dataset/new.zip+.
+  # If the folder +dataset/+ doesn't exist then it's created.
   def download_zip
     # TODO use curl or wget???
     begin
       IO.copy_stream(URI.open(Rails.configuration.dataset_url), "dataset/new.zip")
+    #  TODO catch error when the file already exists, which means the migration is running
     rescue Errno::ENOTDIR, Errno::ENOENT
       Dir.mkdir("dataset")
       retry
     end
   end
 
+  # Open zip file and extract its file to +dataset/new.zip+
   def unzip_data
     Zip::File.open("dataset/new.zip") do |zip_file|
       # We assume the zip only has 1 csv file
@@ -64,6 +69,9 @@ class UpdatesController < ApplicationController
     end
   end
 
+  # Compares the files +dataset/new.csv+ and +dataset/old.csv+
+  # and returns the rows that exist in the first file but not in the second one.
+  # @return [Hash<string, CSVDiff::Algorithm::Diff>]
   def get_diff
     new_file = CSV.open("dataset/new.csv", "r") do |csv|
       csv.readlines
@@ -85,6 +93,9 @@ class UpdatesController < ApplicationController
     diff.adds
   end
 
+  # Saves the rows from +diff+ in batches of 20.
+  # This uses +insert_all!+ so the records won't be validated but they will be casted.
+  # @param diff [Hash<string, CSVDiff::Algorithm::Diff>]
   def save_diff(diff)
     # TODO add batch size to ENV
     diff.each_slice(20) do |batch|
@@ -104,6 +115,8 @@ class UpdatesController < ApplicationController
     end
   end
 
+  # Updates the only record of +Update+ with today's date and the size of +dif+.
+  # @param diff [Hash<string, CSVDiff::Algorithm::Diff>]
   def update_sync_data(diff)
     # TODO only exists one record???
     sync_data = Update.last
@@ -113,11 +126,14 @@ class UpdatesController < ApplicationController
     sync_data.save!
   end
 
+  # Deletes +dataset/new.zip+ and +dataset/old.csv+ because they are no longer needed.
   def delete_files
     File.delete("dataset/new.zip")
     File.delete("dataset/old.csv") if File.exist?("dataset/old.csv")
   end
 
+  # The file +dataset/new.csv+ is renamed to +dataset/old.csv+ so there is no conflicts
+  # when a new csv is created.
   def rename_csv
     File.rename("dataset/new.csv", "dataset/old.csv")
   end
