@@ -10,6 +10,11 @@ Use the variable `DATASET_URL` to set where the dataset is downloaded from. This
 DATASET_URL=https://...
 ```
 
+### Datasets
+Some datasets to use
++ [1000 records](https://github.com/briangraj/datos/raw/main/1000.zip)
++ [5000 records](https://github.com/briangraj/datos/raw/main/5000.zip)
+
 ## Run the app
 1. Clone repo
 ```shell
