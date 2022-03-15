@@ -41,11 +41,8 @@ class UpdatesController < ApplicationController
 
     # rename_csv
     rename_csv
-    ending = Process.clock_gettime(Process::CLOCK_MONOTONIC)
-    elapsed = ending - starting
 
-    puts "took #{elapsed}"
-
+    # TODO should respond before???
     head(:no_content)
   end
 
