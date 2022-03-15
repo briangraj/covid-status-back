@@ -79,6 +79,7 @@ class UpdatesController < ApplicationController
       old_file = [new_file.first]
     end
 
+    # FIXME does not udpate existing records
     diff = CSVDiff.new(old_file, new_file)
 
     diff.adds
