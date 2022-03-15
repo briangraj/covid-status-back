@@ -17,6 +17,7 @@ class UpdatesController < ApplicationController
   end
 
   def update_migration
+    starting = Process.clock_gettime(Process::CLOCK_MONOTONIC)
     # TODO Possible steps
     # verify when was the last update so it's not done more than once per day
 
@@ -40,6 +41,10 @@ class UpdatesController < ApplicationController
 
     # rename_csv
     rename_csv
+    ending = Process.clock_gettime(Process::CLOCK_MONOTONIC)
+    elapsed = ending - starting
+
+    puts "took #{elapsed}"
 
     head(:no_content)
   end
@@ -83,19 +88,21 @@ class UpdatesController < ApplicationController
   end
 
   def save_diff(diff)
-    diff.each do |_, value|
-      # TODO not save one by one
-      a_case = Case.new(
-        event_id: value.fields["id_evento_caso"],
-        gender: value.fields["sexo"],
-        # TODO "edad" could be in months. based on edad_años_meses, if it is in months it should be transformed to years
-        age: value.fields["edad"],
-        state: value.fields["residencia_provincia_nombre"],
-        diagnosis_date: value.fields["fecha_diagnostico"],
-        death_date: value.fields["fecha_fallecimiento"]
-      )
+    # TODO add batch size to ENV
+    diff.each_slice(20) do |batch|
+      cases = batch.map do |_, value|
+        {
+          event_id: value.fields["id_evento_caso"],
+          gender: value.fields["sexo"],
+          # TODO "edad" could be in months. based on edad_años_meses, if it is in months it should be transformed to years
+          age: value.fields["edad"],
+          state: value.fields["residencia_provincia_nombre"],
+          diagnosis_date: value.fields["fecha_diagnostico"],
+          death_date: value.fields["fecha_fallecimiento"]
+        }
+      end
 
-      a_case.save!
+      Case.insert_all!(cases)
     end
   end
 
