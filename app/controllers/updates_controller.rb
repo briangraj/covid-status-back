@@ -25,7 +25,6 @@ class UpdatesController < ApplicationController
   end
 
   def update_migration
-    starting = Process.clock_gettime(Process::CLOCK_MONOTONIC)
     # TODO Possible steps
     # verify when was the last update so it's not done more than once per day
 
