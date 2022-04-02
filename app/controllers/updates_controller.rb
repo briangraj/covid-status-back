@@ -126,7 +126,7 @@ class UpdatesController < ApplicationController
   # @param diff [Hash<string, CSVDiff::Algorithm::Diff>]
   def update_sync_data(diff)
     # TODO only exists one record???
-    sync_data = Update.last
+    sync_data = Update.first_or_create!
     sync_data.last_load_date = Date.today
     sync_data.updated_records = diff.size
 
