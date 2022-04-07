@@ -1,6 +1,10 @@
-FROM ruby:3.1.0
+FROM ruby:3.1.1-alpine3.14
 
-#RUN apt-get update -qq && apt-get install -y nodejs postgresql-client
+RUN apk update && apk add --no-cache --update \
+    build-base \
+    sqlite-libs \
+    sqlite-dev \
+    postgresql-dev
 
 WORKDIR /myapp
 COPY Gemfile* ./
