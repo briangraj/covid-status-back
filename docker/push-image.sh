@@ -1,5 +1,7 @@
 #!/bin/bash
 
+docker build -t csb:latest .
+
 # docker tag <existing-image> <hub-user>/<repo-name>[:<tag>]
 docker tag csb:latest briangraj/csb:latest
 
