@@ -4,6 +4,7 @@ RUN apk update && apk add --no-cache --update \
     build-base \
     sqlite-libs \
     sqlite-dev \
+    tzdata \
     postgresql-dev
 
 WORKDIR /myapp
