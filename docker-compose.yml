@@ -18,6 +18,8 @@ services:
     image: briangraj/csb:latest
     ports:
       - "8080:8080"
+    volumes:
+      - ./dataset/:/myapp/dataset
     env_file:
       - .env.compose
 #    environment:
