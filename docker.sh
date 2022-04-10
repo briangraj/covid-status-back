@@ -15,6 +15,7 @@ docker run -d \
 docker run -d \
   --name dev-csb \
   --env-file .env.development \
-	--network cs-net \
+	-v ~/csb-dataset/:/myapp/dataset \
   -p 8080:8080 \
+	--network cs-net \
   briangraj/csb:latest
